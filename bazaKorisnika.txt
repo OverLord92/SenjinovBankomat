@@ -1,0 +1,7 @@
+dejan dejan 2450.0
+tarik tarik 1000.0
+senjin senjin 1000.0
+samin samin 2000.0
+samin samin 1000.0
+tarik tarik 10000.0
+tatarija 1234 2000.0
