@@ -2,28 +2,32 @@ package paket;
 
 import java.util.Scanner;
 
-public class CopyOfATM {
+public class Bankomat {
+	
+	// podaci o bankomatu
 	private static boolean isWorking = true;
 	private static int novcanica100 = 10;
 	private static int novcanica50 = 20;
 	private static int novcanica20 = 30;
 	private static int novcanica10 = 60;
 
+	
 	/** Stampa brojcano stanje novcanica u bankomatu */
 	public static void printATM() {
-		System.out.println("100: " + novcanica100);
-		System.out.println("50: " + novcanica50);
-		System.out.println("20: " + novcanica20);
-		System.out.println("10: " + novcanica10);
+		System.out.println("\n   100: " + novcanica100);
+		System.out.println("   50: " + novcanica50);
+		System.out.println("   20: " + novcanica20);
+		System.out.println("   10: " + novcanica10);
 		System.out.println("\n");
 	}
 
+	// geteri i seteri
 	public static boolean isWorking() {
 		return isWorking;
 	}
 
 	public static void setWorking(boolean isWorking) {
-		CopyOfATM.isWorking = isWorking;
+		Bankomat.isWorking = isWorking;
 	}
 
 	public static int getNovcanica100() {
@@ -58,6 +62,7 @@ public class CopyOfATM {
 		novcanica10 = NewNovcanica10;
 	}
 
+	
 	/** Metoda koja vraca novcano stanje na bankomatu */
 	public static int getATMBalance() {
 		return novcanica100 * 100 + novcanica50 * 50 + novcanica20 * 20
@@ -67,15 +72,22 @@ public class CopyOfATM {
 	/** Metoda za isplatu kojoj proslije�ujemo korisni�ko ime */
 	public static void withdraw(String userName) {
 		Scanner input = new Scanner(System.in);
-		// kreiramo objekat user i dodjeljujemo mu vrijednosti objekta �ije smo
-		// korisni�ko ime proslijedili u metodu
+		
+		// kreiramo objekat user i dodjeljujemo mu vrijednosti objekta cije smo
+		// korisnicko ime proslijedili u metodu
 		User user = UserBase.getUser(userName);
-		System.out.println("Enter the amount you want to withdraw: ");
+		
+		System.out.print("\n   Enter the amount you want to withdraw: ");
 		int amount = input.nextInt();
+		
+		// provjeravamo da li u bankomatu ima dovolno novca za isplatu
 		if (amount > getATMBalance()) {
 			System.out.println("U bankomatu nema dovoljno novca za isplatu.");
+			
+			// ako korisnik zahtijeva vise od njegovog stanja racuna
 		} else if (amount > user.getBalance()) {
 			System.out.println("Nemate toliko novaca na ra�unu.");
+			
 		} else {
 			int brojac100 = 0, brojac50 = 0, brojac20 = 0, brojac10 = 0;
 			int isplaceno = 0;
@@ -100,25 +112,29 @@ public class CopyOfATM {
 				brojac10++;
 				isplaceno += 10;
 			}
+			
+			// provjeravamo da li mozemo isplatiti trazeni iznos
 			if (amount == 0) {
 				novcanica100 -= brojac100;
 				novcanica50 -= brojac50;
 				novcanica20 -= brojac20;
 				novcanica10 -= brojac10;
+				
+				// poslije isplate setujemo novu vrjednost stanja na racunu korisnika
 				user.setBalance(user.getBalance() - isplaceno);
-				System.out.println("Dobili  ste: ");
+				System.out.println("\n   Dobili  ste: ");
 				if (brojac100 > 0)
-					System.out.println(" - " + brojac100 + " 100KM novcanica,");
+					System.out.println("    - " + brojac100 + " 100KM novcanica,");
 				if (brojac50 > 0)
-					System.out.println(" - " + brojac50 + " 50KM novcanica,");
+					System.out.println("    - " + brojac50 + " 50KM novcanica,");
 				if (brojac20 > 0)
-					System.out.println(" - " + brojac20 + " 20KM novcanica,");
+					System.out.println("    - " + brojac20 + " 20KM novcanica,");
 				if (brojac10 > 0)
-					System.out.println(" - " + brojac10 + " 10KM novcanica,");
+					System.out.println("    - " + brojac10 + " 10KM novcanica.");
 				System.out
-						.println("Provjerite iznos. Dodatne reklamacije se ne prihvataju.\n");
+						.println("\nProvjerite iznos.\nDodatne reklamacije se ne prihvataju.\n");
 			} else {
-				System.out.println("Ne mo�emo vam isplatiti tu sumu.\n");
+				System.out.println("Ne mozemo vam isplatiti tu sumu.\n");
 			}
 
 		}

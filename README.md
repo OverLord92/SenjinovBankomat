@@ -1,8 +1,13 @@
 # SenjinovBankomat
-bankomat s izvršenim preporukama od danas.
+
+
+
+Bankomat s izvršenim preporukama.
 
 
 Mazno sam 2-3 ideje od Lisca. 
+
+
 
 Preostalo mi je jos da to fino iskomentarisem i da uradim exception handeling tamo gdje je to potrebno.
 
@@ -14,6 +19,6 @@ Nije do programa nego je do podesavanja Eclipsa ili Windowsa, ako bi mi neko mog
 
 Pokusao sam da prebacim encoding na UTF8, Windows > Preferences > General > Workspace... ali nista. i dalje imam taj problem.
 
-Kreirao sam novi .txt file sa cijelim brojevima da bi program mogao pokretati bez brisanja .XX
+
 
 

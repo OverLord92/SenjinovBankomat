@@ -7,24 +7,34 @@ public abstract class Main {
 
 	public static void main(String[] args) throws Exception {
 		Scanner input = new Scanner(System.in);
+		
+		// fajl s kojeg citamo korisnike
 		File file = new File("bazaKorisnika.txt");
-		File fajl = new File("evidencija.txt"); //privremeni fajl dok ispravljem greske
-		// TODO Auto-generated method stub
+		
 		try {
 			do {
-				UserBase.scanUsers(fajl); // nemoj zaboraviti vratiti ovo fajl na file!!
+				// skeniramo korisnike
+				UserBase.scanUsers(file); 
+				
+				// korisnik bankomata se uloguje
 				System.out.print("Enter your username: ");
 				String korisnik = input.next();
 
+				// prvo provjeravamo da li je admin
+				// ako jest porecemo aminMenu
 				if (korisnik.equals(Admin.getAdminName())) {
 					Admin.adminMenu(file);
-				} else if (UserBase.accountExists(korisnik)) {
+					} 
+				
+				// ako nije admin provjeravamo da li korisnik postoji u bazi podataka
+				else if (UserBase.accountExists(korisnik)) {
 					UserBase.userMenu(korisnik);
 				}
 
-				System.out.println("Hvala na povjerenju.");
+				
+				System.out.println("Hvala na povjerenju.\n");
 				UserBase.printUsers(file);
-			} while (CopyOfATM.isWorking());
+			} while (Bankomat.isWorking());
 		} catch (Exception ex) {
 			System.out.println("Greska.");
 		}

@@ -7,23 +7,26 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class User {
+	
+	// data filds korisnika
 	private String userName;
 	private String passWord;
 	private double balance;
 
 	public User() {
-		// UserBase.getUserBase().add(this);
+
 	}
 
+	// konstruktor
 	public User(String userName, String password, double balance) {
-		// treba dodati cod koji bi onemogucio izradu vise naloga sa istim
-		// imenom
+		
 		this.userName = userName;
 		this.passWord = password;
 		this.balance = balance;
-//		UserBase.getUserBase().add(this);
+
 	}
 
+	// geteri i seteri za podatke korisnika
 	public double getBalance() {
 		return this.balance;
 	}
@@ -51,17 +54,22 @@ public class User {
 }
 
 
+// klasa za rad sa batom podataka
 class UserBase {
+	
 	private static ArrayList<User> userBase = new ArrayList<>(); //Lista korisnika
 
+	// geter za userBAse
+	public static ArrayList getUserBase() {
+		return userBase;
+	}
 	
 	/** Metoda koja cita podatke korisnika s fajla */
 	public static void scanUsers(File file) {
 		try {
 			Scanner input = new Scanner(file);
-//			File file = new File("bazaKorisnika.txt");
-//			Scanner input = new Scanner(file);
-//			ArrayList<User> users = new ArrayList<>();	
+				
+			// skeniramo korisnike i unosimo ih u userBase listu
 			while(input.hasNext()){
 				UserBase.getUserBase().add(new User(input.next(), input.next(), input.nextDouble()));
 			}
@@ -71,33 +79,41 @@ class UserBase {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	/** Metoda koja stampa korisnike na fajl */
 	public static void printUsers(File file) throws FileNotFoundException{
+		
 		Scanner input = new Scanner(file);
+		
 		PrintWriter wr = null;
 			wr = new PrintWriter(new FileOutputStream(file));
+			
+			// nakon zavrsetka rada bankomata printamo bazu korisnika na fajl
 			for(int i = 0; i < userBase.size(); i++){
         
 			User user = (User)userBase.get(i);	
 				wr.append(user.getUserName() + " " + user.getPassWord() + " " + user.getBalance() + "\n");
-
-			
 
 			} 
 			wr.close();
 		
 	}
 
-	public static ArrayList getUserBase() {
-		return userBase;
-	}
-
+	
+	/** Metoda koja vraca korisnika pomocu proslieđenog userName-a */
 	public static User getUser(String userName) {
+		
 		boolean status = false;
+		
+		// metoda vraca null ukoliko nema korisnika pod tim imenom
 		User user = null;
-		for (int i = 0; i < userBase.size(); i++) {
-			user = (User) userBase.get(i);
+		
+		for (User user1: userBase) {
+			user = user1;
 			if (userName.equals(user.getUserName())) {
+				
+				// ako je nađen korisnik pod tim imenom izlazimo iz petlje
 				status = true;
 				break;
 			}
@@ -111,7 +127,9 @@ class UserBase {
 	
 	/** Metoda koja provjerava da li postoji korisnik s odre�enim korisni�kim imenom */
 	public static boolean accountExists(String userName) {
+		
 		boolean accountExists = false;
+		
 		if (getUser(userName) != null) {
 			return true;
 		} else {
@@ -121,8 +139,11 @@ class UserBase {
 
 	/** Metoda koja provjerava da li je sifra ispravna */
 	public static boolean passWordIsValid(String userName, String password) {
+		
 		boolean passwordIsValid = false;
 		User user = getUser(userName);
+		
+		// provjeravamo da li je sifra validna
 		if (password.equals(user.getPassWord())) {
 			passwordIsValid = true;
 		}
@@ -138,19 +159,26 @@ class UserBase {
 		}
 		System.out.println("\n");
 	}
-	/** Metoda koja pokrece korisnicki meni */
 	
+	
+	/** Metoda koja pokrece korisnicki meni */
 	public static void userMenu(String userName){
+		
 		Scanner input = new Scanner(System.in);
 		int choice; 
 		
 	
 		String password;
 		int numberOftry = 3;
+		
+		// pitamo korisnika da unese sifru
 		do{
 			System.out.print("Enter password: ");
 		 password = input.next();
+		 
+		 // ako je sifra validna izlazimo iz petlje
 		 if(passWordIsValid(userName, password)) break;
+		 
 		 else{
 			 --numberOftry;
 			 if(numberOftry == 0){
@@ -162,15 +190,17 @@ class UserBase {
 		}while(!passWordIsValid(userName, password));
 		
 		
+		// printanje korisničkog menija
 		do{
-			System.out.println("To get your balance press 1.");
-			System.out.println("To withdraw money press 2.");
-			System.out.println("To exit menu press 3.");
+			System.out.println("\n  To get your balance press 1.");
+			System.out.println("  To withdraw money press 2.");
+			System.out.println("  To exit menu press 3.\n");
+			System.out.print("Your choice: ");
 			choice = input.nextInt();
 			
 			if(choice == 1) 
 			System.out.println("Your balance is: " + getUser(userName).getBalance());
-			if(choice == 2) CopyOfATM.withdraw(userName);
+			if(choice == 2) Bankomat.withdraw(userName);
 		}while(choice != 3);
 	}
 }
